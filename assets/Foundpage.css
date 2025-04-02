@@ -1,0 +1,259 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.8;
+    background-color: #FFFFFF; /* White Background */
+    color: #da0505; /* Text Color */
+    overflow: auto;
+}
+
+/* Header */
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align items to the left */
+    gap: 20px; /* Space between logo and text */
+    padding: 20px;
+    background-color: #FFFFFF;
+}
+
+/* Logo Styling */
+.logo {
+    height: 80px; /* Slightly bigger */
+    width: auto;
+    filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.2)); /* Soft shadow for elegance */
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05); /* Slight pop effect on hover */
+    filter: drop-shadow(3px 3px 8px rgba(0, 0, 0, 0.3)); /* More pronounced shadow */
+}
+
+/* Ensuring Text Aligns Properly */
+.header-content div {
+    text-align: left; /* Aligns text properly */
+}
+
+header h1 {
+    margin-left: 50px;
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+    color: #b30000;
+}
+
+header p {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: #333;
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+/* Found Form */
+.found-form h2 {
+    font-size: 2rem;
+    color: #b30000;
+    margin-bottom: 20px;
+}
+
+.found-form .form-group {
+    margin-bottom: 15px;
+}
+
+.found-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.found-form input[type="text"],
+.found-form textarea,
+.found-form input[type="date"],
+.found-form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.found-form textarea {
+    resize: vertical;
+}
+
+.found-form button {
+    background-color: #b30000;
+    color: #FFFFFF;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.found-form button:hover {
+    background-color: #800000;
+    transform: scale(1.05);
+}
+
+/* Found Tips Section */
+.found-tips {
+    margin-top: 30px;
+}
+
+.found-tips h3 {
+    font-size: 1.8rem;
+    color: #b30000;
+    margin-bottom: 15px;
+}
+
+.found-tips ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    color: #333;
+}
+
+.found-tips li {
+    margin-bottom: 10px;
+}
+
+/* Footer */
+footer {
+    color: #0b0a0a;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: #b30000;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+.messages-container {
+    text-align: center;
+    margin: 10px auto;
+  }
+  
+  .alert {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    font-weight: bold;
+    width: 50%;
+    margin: auto;
+  }
+  
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    header p {
+        font-size: 1rem;
+    }
+
+    .found-form h2 {
+        font-size: 1.8rem;
+    }
+
+    .found-tips h3 {
+        font-size: 1.6rem;
+    }
+}
+
+
+
+/* Found Items List Section */
+.found-items-list {
+  margin-bottom: 40px;
+}
+
+.found-items-list h2 {
+  font-size: 2rem;
+  color: #b30000;
+  margin-bottom: 15px;
+}
+
+.found-items-list p {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Items Container */
+.items-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Item Card */
+.item-card {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.item-card h3 {
+  font-size: 1.5rem;
+  color: #b30000;
+  margin-bottom: 10px;
+}
+
+.item-card p {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.item-card strong {
+  color: #b30000;
+}
