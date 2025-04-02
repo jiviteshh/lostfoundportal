@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'Homepage.css' %}">
+    <title>KL University Lost and Found Portal</title>
+    <style>
+        .scrolling-text {
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+            animation: scroll-text 10s linear infinite;
+        }
+
+        @keyframes scroll-text {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <img src="{% static 'logoo.png' %}" alt="KL University Logo" class="logo" style="width: 150px; height: auto;">
+            <div>
+                <h1>KL University Lost and Found Portal</h1>
+                <p class="scrolling-text">Helping you find what you've lost</p>
+            </div>
+        </div>
+    </header>
+
+   <div class="content">
+    <div class="about">
+        <h3>About the Portal</h3>
+        <p style="color: black; font-style: italic;">
+            The KL University Lost and Found Portal is a dedicated platform for students and staff to report lost or found items within the campus. Our goal is to help you reunite with your lost belongings quickly and efficiently.
+
+            With a user-friendly interface and a centralized database, the portal ensures that lost items are easily reported and matched with found items. Whether you’ve misplaced your keys, phone, books, or any other personal belongings, our platform is here to simplify the recovery process.
+
+            Join our community-driven initiative to create a more connected and helpful campus environment. Together, we can make losing something a little less stressful and finding it a lot easier!
+        </p>
+    </div>
+
+    <div class="button-container">
+        <a href="{% url 'listlost' %}" class="button" style="width: 250px;">List all Lost items</a>
+        <a href="{% url 'listfound' %}" class="button" style="width: 250px;">List all Found items</a>
+        <a href="{% url 'lost' %}" class="button">Report Lost Item</a>
+        <a href="{% url 'found' %}" class="button" style="width: 210px;">Report Found Item</a>
+    </div>
+</div>
+
+    <footer>
+        <p>&copy; 2025 KL University. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

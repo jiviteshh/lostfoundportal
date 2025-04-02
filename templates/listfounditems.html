@@ -1,0 +1,225 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KL University Lost and Found - List Found Items</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.8;
+    background-color: #FFFFFF;
+    color: #333;
+    overflow: hidden; /* Prevent scrolling */
+  }
+
+  /* Header */
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #FFFFFF;
+    justify-content: center;
+  }
+
+  .logo {
+    height: 80px;
+    cursor: pointer;
+  }
+
+  header h1 {
+    font-size: 2rem;
+    color: #b30000;
+    text-align: center;
+  }
+
+  /* Main Content */
+  main {
+    padding: 20px;
+    max-width: 900px;
+    margin: 20px auto;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Items Container */
+  .items-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  /* Item Card */
+  .item-card {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+  }
+
+  .item-card img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .item-card h3 {
+    font-size: 1.5rem;
+    color: #b30000;
+  }
+
+  .item-card p {
+    color: #333;
+  }
+
+  /* Delete Button */
+  .delete-btn {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  .delete-btn:hover {
+    background-color: #cc0000;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 1rem;
+    color: #333;
+  }
+
+  footer a {
+    color: #b30000;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  footer a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .header-content {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .logo {
+      margin-bottom: 10px;
+    }
+
+    .items-container {
+      grid-template-columns: 1fr;
+    }
+
+    .delete-btn {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <img src="{% static 'logoo.png' %}" alt="KL University Logo" class="logo" onclick="window.location.href='/'">
+      <h1>KL University Lost and Found Portal</h1>
+    </div>
+  </header>
+
+  <main>
+    <section class="found-items-list">
+      <h2>Found Items</h2>
+      <p>Below is a list of items that have been found on campus. If you see your lost item, contact us to claim it.</p>
+
+      <div class="items-container">
+        {% for item in found_items %}
+        <div class="item-card">
+          {% if item.upload_photo %}
+            <img src="{{ item.upload_photo.url }}" alt="Found Item">
+          {% else %}
+            <img src="{% static 'images/default.png' %}" alt="No Image Available">
+          {% endif %}
+          <h3>{{ item.item_description|truncatewords:10 }}</h3>
+          <p><strong>Location Found:</strong> {{ item.location_found }}</p>
+          <p><strong>Date Found:</strong> {{ item.date_found }}</p>
+          <p><strong>Contact:</strong> {{ item.contact_info }}</p>
+
+          <form id="delete-form-{{ item.id }}" method="POST" action="{% url 'delete_found_item' item.id %}">
+            {% csrf_token %}
+            <button type="button" class="delete-btn" onclick="confirmDelete({{ item.id }})">Delete</button>
+          </form>
+        </div>
+        {% empty %}
+        <p>No found items available.</p>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Thank you for using the KL University Lost and Found Portal!</p>
+    <p><a href="/">Back to Home</a></p>
+  </footer>
+
+  <!-- SweetAlert Delete Confirmation -->
+  <script>
+    function confirmDelete(itemId) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This action cannot be undone.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById("delete-form-" + itemId).submit();
+            }
+        });
+    }
+  </script>
+
+  <!-- SweetAlert for Success Messages -->
+  {% if messages %}
+  <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          {% for message in messages %}
+              Swal.fire({
+                  title: "{% if message.tags == 'success' %}Success!{% else %}Error!{% endif %}",
+                  text: "{{ message|escapejs }}",
+                  icon: "{{ message.tags }}",
+                  confirmButtonColor: "#007bff"
+              });
+          {% endfor %}
+      });
+  </script>
+  {% endif %}
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'Foundpage.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <title>KL University Lost and Found - Found Page</title>
+</head>
+
+<body>
+  <header>
+    <div class="header-content">
+      <img src="{% static 'logoo.png' %}" alt="KL University Logo" class="logo" onclick="window.location.href='/'">
+      <div>
+        <h1>KL University Lost and Found Portal</h1>
+        <p>Found Something? Report It Here!</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="found-form">
+      <h2>Report a Found Item</h2>
+      <p>Help reunite lost items with their owners by providing details about the item you found.</p>
+
+      <!-- Updated form tag to include enctype for file uploads -->
+      <form id="found-item-form" action="{% url 'submit-found-item' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="item-description">Item Description:</label>
+          <textarea id="item-description" name="item-description" rows="4" placeholder="Describe the item (e.g., color, brand, size, unique features)" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="location-found">Location Found:</label>
+          <input type="text" id="location-found" name="location-found" placeholder="Where did you find the item?" required>
+        </div>
+
+        <div class="form-group">
+          <label for="date-found">Date Found:</label>
+          <input type="date" id="date-found" name="date-found" required>
+        </div>
+
+        <div class="form-group">
+          <label for="upload-photo">Upload Photo (Optional):</label>
+          <input type="file" id="upload-photo" name="upload-photo" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="contact-info">Your Contact Information (Optional):</label>
+          <input type="text" id="contact-info" name="contact-info" placeholder="Email or phone number for follow-up">
+        </div>
+
+        <button type="submit">Submit Found Item</button>
+      </form>
+    </section>
+
+    <section class="found-tips">
+      <h3>Tips for Reporting Found Items</h3>
+      <ul>
+        <li>Be as detailed as possible when describing the item.</li>
+        <li>If the item contains sensitive information (e.g., IDs, wallets), avoid sharing too many details publicly.</li>
+        <li>Turn in high-value items (e.g., phones, laptops) to the university’s lost-and-found office for safekeeping.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Thank you for helping make KL University a better place!</p>
+    <p><a href="/">Back to Home</a></p>
+  </footer>
+
+  <!-- SweetAlert Submission Success Animation -->
+  <script>
+    document.getElementById("found-item-form").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission initially
+
+      Swal.fire({
+        title: "Submitting...",
+        text: "Please wait while we process your report.",
+        icon: "info",
+        showConfirmButton: false,
+        timer: 2000
+      }).then(() => {
+        this.submit(); // Submit the form after animation
+      });
+    });
+
+    // Auto-hide messages after 5 seconds
+    setTimeout(function() {
+      let alerts = document.querySelectorAll(".alert");
+      alerts.forEach(alert => {
+        alert.style.display = "none";
+      });
+    }, 5000);
+  </script>
+
+  <!-- SweetAlert Success Message from Django Messages -->
+  {% if messages %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      {% for message in messages %}
+        Swal.fire({
+          title: "{% if message.tags == 'success' %}Success!{% else %}Error!{% endif %}",
+          text: "{{ message|escapejs }}",
+          icon: "{{ message.tags }}",
+          confirmButtonColor: "#007bff"
+        });
+      {% endfor %}
+    });
+  </script>
+  {% endif %}
+
+</body>
+</html>

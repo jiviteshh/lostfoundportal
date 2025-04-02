@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'Lostpage.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <title>KL University Lost and Found - Lost Page</title>
+</head>
+
+<body>
+  <header>
+    <div class="header-content">
+      <img src="{% static 'logoo.png' %}" alt="KL University Logo" class="logo" onclick="window.location.href='/'">
+      <div>
+        <h1>KL University Lost and Found Portal</h1>
+        <p>Lost Something? Report It Here!</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="lost-form">
+      <h2>Report a Lost Item</h2>
+      <p>Help us help you! Provide details about the item you lost, and we’ll do our best to reunite you with it.</p>
+
+      <form id="lost-item-form" action="{% url 'report_lost' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label for="item-description">Item Description:</label>
+          <textarea id="item-description" name="item-description" rows="4" placeholder="Describe the item (e.g., color, brand, size, unique features)" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="location-lost">Location Lost:</label>
+          <input type="text" id="location-lost" name="location-lost" placeholder="Where did you lose the item?" required>
+        </div>
+
+        <div class="form-group">
+          <label for="date-lost">Date Lost:</label>
+          <input type="date" id="date-lost" name="date-lost" required>
+        </div>
+
+        <div class="form-group">
+          <label for="upload-photo">Upload Image of Lost Item (Optional):</label>
+          <input type="file" id="upload-photo" name="upload-photo" accept="image/*">
+        </div>
+
+        <div class="form-group">
+          <label for="contact-info">Your Contact Information:</label>
+          <input type="text" id="contact-info" name="contact-info" placeholder="Email or phone number for follow-up" required>
+        </div>
+
+        <button type="submit">Submit Lost Item</button>
+      </form>
+    </section>
+
+    <section class="lost-tips">
+      <h3>Tips for Reporting Lost Items</h3>
+      <ul>
+        <li>Provide as much detail as possible about the lost item.</li>
+        <li>Include the exact location and time when the item was lost.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Thank you for using the KL University Lost and Found Portal!</p>
+    <p><a href="/">Back to Home</a></p>
+  </footer>
+
+  <!-- SweetAlert Submission Success Animation -->
+  <script>
+    document.getElementById("lost-item-form").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission initially
+
+      Swal.fire({
+        title: "Submitting...",
+        text: "Please wait while we process your report.",
+        icon: "info",
+        showConfirmButton: false,
+        timer: 2000
+      }).then(() => {
+        this.submit(); // Submit the form after animation
+      });
+    });
+
+    // Auto-hide messages after 5 seconds
+    setTimeout(function() {
+      let alerts = document.querySelectorAll(".alert");
+      alerts.forEach(alert => {
+        alert.style.display = "none";
+      });
+    }, 5000);
+  </script>
+
+  <!-- SweetAlert Success Message from Django Messages -->
+  {% if messages %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      {% for message in messages %}
+        Swal.fire({
+          title: "{% if message.tags == 'success' %}Success!{% else %}Error!{% endif %}",
+          text: "{{ message|escapejs }}",
+          icon: "{{ message.tags }}",
+          confirmButtonColor: "#007bff"
+        });
+      {% endfor %}
+    });
+  </script>
+  {% endif %}
+
+</body>
+</html>
