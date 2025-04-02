@@ -30,8 +30,8 @@ else:
 # Security settings
 SECRET_KEY = os.environ.get('SECRET_KEY', 'your-default-secret-key')  # Use env variable
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'  # Convert string to boolean
+ALLOWED_HOSTS = ['klulostfoundportal.onrender.com']
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else []
 
 # Installed apps
 INSTALLED_APPS = [
